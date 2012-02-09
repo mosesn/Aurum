@@ -1,0 +1,1 @@
+case class AttributeObj(val name: String, val value: String)
