@@ -18,8 +18,7 @@ object SaleObject {
   }
 
   def getImages(map: Map[String, List[Map[String, Any]]]): List[ImageObj] = {
-    (map.values.flatten map ({x: Map[String, Any] => makeImageObj(x) })).toList
+    (map.values.flatten map ({x: Map[String, Any] => ImageObj(x) })).toList
   }
 
-  def makeImageObj(x: Map[String, Any]) = ImageObj(x("url").toString, x("width").asInstanceOf[BigInt].toInt, x("height").asInstanceOf[BigInt].toInt)
 }
