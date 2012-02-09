@@ -4,8 +4,7 @@ class ClientTest extends FunSuite {
 
   test("Active sales are received properly") {
     val client = new GiltClient(Secret.password)
-    val tmp = client.getActive
-    println(tmp)
+    val tmp = client.active
     assert(!(tmp isEmpty))
   }
 
