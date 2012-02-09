@@ -11,3 +11,4 @@ lib_managed/
 src_managed/
 project/boot/
 project/plugins/project/
+src/test/scala/Secret.scala
