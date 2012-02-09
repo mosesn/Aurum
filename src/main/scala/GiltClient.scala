@@ -11,22 +11,21 @@ class GiltClient(val apiKey: String) {
 
   def active: List[SaleObject] = {
     val h = new Http
-    val req = url("https://api.gilt.com/v1/sales/active.json") <<? Map("apikey" -> apiKey)
-    h((req) ># {json =>
+    val req = url("https://api.gilt.com/v1/sales/active.json")
+    h((req  <<? Map("apikey" -> apiKey)) ># {json =>
       getSaleObject(json)
     })
   }
 
-/*
-  def active(store_key: String): List[SaleObject] = {
+/*  def active(store_key: String): List[SaleObject] = {
     val h = new Http
-    val req = :/("https://api.gilt.com/v1/sales/") / store_key / "active.json"
+    val req = url("https://api.gilt.com/v1/sales/" + store_key + "active.json")
     h(req <<? Map("apikey" -> apiKey) ># {json =>
       getSaleObject(json)
     })
-  }*/
+  }
 
-/*  def upcoming: List[SaleObject] = {
+  def upcoming: List[SaleObject] = {
     val h = new Http
     val req = :/("https://api.gilt.com/v1/sales/upcoming.json")
     h((req <<? Map("apikey" -> apiKey)) ># {json =>
