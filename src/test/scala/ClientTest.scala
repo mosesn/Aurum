@@ -33,7 +33,7 @@ class ClientTest extends FunSuite {
   test("Sales details are working") {
     val client = new GiltClient(Secret.password)
     val sales = client.active
-    var lst: List[SaleObject] = Nil
+    var lst: List[Sale] = Nil
     for (sale <- sales) {
       lst = client.detail(sale.store, sale.sale_key) :: lst
     }
@@ -43,7 +43,7 @@ class ClientTest extends FunSuite {
   test("Product details are working") {
     val client = new GiltClient(Secret.password)
     val sales = client.active
-    var lst: List[ProductObject] = Nil
+    var lst: List[Product] = Nil
     for (sale <- sales) {
       sale.products match {
         case Some(products) => {

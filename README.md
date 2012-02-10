@@ -1,10 +1,10 @@
 #Aurum, a Gilt Scala API
 
 ##About
-Aurum is a simple scala wrapper for [Gilt's API](http://dev.gilt.com/). It is designed to be simple to use, so that developers need not worry about making the correct requests or storing the results of those requests and can instead get right to developing their awesome apps!
+Aurum is a simple scala client binding for [Gilt's API](http://dev.gilt.com/). It is designed to be simple to use, so that developers don't need to worry about making the correct requests or interpreting the results of those requests, and can instead get right to developing their awesome apps!
 
 ##To Use
-Each object (SaleObject, ProductObject, ImageObject, SKUObject) directly represents the contents of each respective "response" subsection [listed on this page](https://dev.gilt.com/page/gilt-public-apis).
+Each object (Sale, Product, Image, SKU) directly represents the contents of each respective "response" subsection [listed on this page](https://dev.gilt.com/page/gilt-public-apis).
 
 ###Initialization
     val client = new GiltClient(apikey) //where apikey is already defined
@@ -41,7 +41,6 @@ Part of the response from a Sale is a list of URLs of valid API calls for gettin
 * Start a feature/bugfix branch
 * Commit and push until you are happy with your contribution
 * Make sure to add tests for it. This is important so I don’t break it in a future version unintentionally.
-* Please try not to mess with the Rakefile, version, or history. If you want to have your own version, or is otherwise necessary, that is fine, but please isolate to its own commit so I can cherry-pick around it.
 
 ##Contributors
-This API wrapper was written by [Moses Nakamura](http://github.com/mnn2104) and [Vivek Bhagwat](http://github.com/vivekbhagwat)
+This client binding was written by [Moses Nakamura](http://github.com/mnn2104) and [Vivek Bhagwat](http://github.com/vivekbhagwat)
