@@ -6,9 +6,27 @@ import net.liftweb.json.JsonAST.JField
 import net.liftweb.json.JsonAST.JArray
 import net.liftweb.json.JsonAST.JString
 
+/**
+  * GiltClient should be considered an interface to the Gilt API
+  *
+  * This is based on v1 of the Gilt API.
+  *
+  * The argument that it needs passed to it is a valid Gilt API Key,
+  * which you can get from their website: https://dev.gilt.com/user/register
+  */
+
 class GiltClient(val apiKey: String) {
+
+  /**
+    * A list of the different supported stores from Gilt.
+    *
+    * This does not query Gilt to get these stores, so it may become outdated.
+    */
   def stores = List("women", "men", "kids", "home")
 
+  /**
+    * Gets the currently active sales from the Gilt website.
+    */
   def active: List[Sale] = {
     val h = new Http
     val req = url("https://api.gilt.com/v1/sales/active.json")
@@ -17,6 +35,9 @@ class GiltClient(val apiKey: String) {
     })
   }
 
+  /**
+    * Gets the currently active sales from the Gilt website for a given store.
+    */
   def active(store_key: String): List[Sale] = {
     if (!validStore(store_key)) {
       throw new IllegalArgumentException("Not a valid store key: " + store_key)
@@ -28,6 +49,9 @@ class GiltClient(val apiKey: String) {
     })
   }
 
+  /**
+    * Gets the upcoming sales from the Gilt website.
+    */
   def upcoming: List[Sale] = {
     val h = new Http
     val req = url("https://api.gilt.com/v1/sales/upcoming.json")
@@ -36,6 +60,9 @@ class GiltClient(val apiKey: String) {
     })
   }
 
+  /**
+    * Gets the upcoming sales from the Gilt website for a given store.
+    */
   def upcoming(store_key: String): List[Sale] = {
     if (!validStore(store_key)) {
       throw new IllegalArgumentException("Not a valid store key: " + store_key)
@@ -47,6 +74,9 @@ class GiltClient(val apiKey: String) {
     })
   }
 
+  /**
+    * Gets the details about a specific sale.
+    */
   def detail(store_key: String, sale_key: String): Sale = {
     val h = new Http
     val req = url("https://api.gilt.com/v1/sales/" + store_key + "/" + sale_key + "/detail.json")
@@ -55,6 +85,9 @@ class GiltClient(val apiKey: String) {
     })
   }
 
+  /**
+    * Gets the details about a specific product.
+    */
   def detail(product_id: String): Product = {
     val h = new Http
     val req = url(ProperProductDetailURL(product_id))
@@ -63,6 +96,12 @@ class GiltClient(val apiKey: String) {
     })
   }
 
+  /**
+    * Gets the details about a specific product, given the URL for it.
+    *
+    * The sale functions return the URL of the product, not the product id
+    * itself, so we included this as a convenience function.
+    */
   def detailFromURL(url: String): Product = {
     url match {
       case ProperProductDetailURL(product_id) => detail(product_id)
@@ -70,6 +109,9 @@ class GiltClient(val apiKey: String) {
     }
   }
 
+  /**
+    * An extractor for the product detail urls.
+    */
   object ProperProductDetailURL {
     def apply(product_id: String) = "https://api.gilt.com/v1/products/" + product_id + "/detail.json"
 

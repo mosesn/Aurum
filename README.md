@@ -42,5 +42,14 @@ Part of the response from a Sale is a list of URLs of valid API calls for gettin
 * Commit and push until you are happy with your contribution
 * Make sure to add tests for it. This is important so I don’t break it in a future version unintentionally.
 
+###Testing
+Tests assume that you have a Secret.scala object in the src/test/scala directory.  That object should look like:
+```scala
+object Secret {
+  val password = "<YOUR GILT API KEY GOES HERE>"
+}
+```
+Tests can be run with sbt test.
+
 ##Contributors
 This client binding was written by [Moses Nakamura](http://github.com/mnn2104) and [Vivek Bhagwat](http://github.com/vivekbhagwat)
