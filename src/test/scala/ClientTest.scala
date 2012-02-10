@@ -30,7 +30,7 @@ class ClientTest extends FunSuite {
     }
   }
 
-  ignore("Sales details are working") {
+  test("Sales details are working") {
     val client = new GiltClient(Secret.password)
     val sales = client.active
     var lst: List[Sale] = Nil

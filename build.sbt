@@ -1,4 +1,4 @@
-name := "ScalaGiltAPI"
+name := "Aurum"
 
 version := "1.0"
 
