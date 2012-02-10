@@ -30,7 +30,7 @@ class ClientTest extends FunSuite {
     }
   }
 
-  test("Details are working") {
+  test("Sales details are working") {
     val client = new GiltClient(Secret.password)
     val sales = client.active
     var lst: List[SaleObject] = Nil
@@ -40,12 +40,19 @@ class ClientTest extends FunSuite {
     assert(!(lst isEmpty))
   }
 
-	test("Product details are working") {
-		val client = new GiltClient(Secret.password)
-		val product = client.product_detail("https://api.gilt.com/v1/products/67602381/detail.json")
-		println(product)
-		assert(false)
-		// var lst: List[ProductObject] = Nil
-		// for(product <- products)
-	}
+  test("Product details are working") {
+    val client = new GiltClient(Secret.password)
+    val sales = client.active
+    var lst: List[ProductObject] = Nil
+    for (sale <- sales) {
+      sale.products match {
+        case Some(products) => {
+          val product = products.head
+          lst = client.detailFromURL(product) :: lst
+        }
+        case None =>
+      }
+    }
+    assert(!(lst isEmpty))
+  }
 }

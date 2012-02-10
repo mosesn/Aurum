@@ -55,18 +55,32 @@ class GiltClient(val apiKey: String) {
     })
   }
 
-	// def product_detail(product_id: Number): ProductObject = {
-	// 	val req = url("https://api.gilt.com/v1/products/" + product_id.toString + "detail.json")
-	// 	product_detail(req)
-	// }
-	
-	def product_detail(url_string: String): ProductObject = {
-		val h = new Http
-		val req = url(url_string) //should validate here.
-		h(req <<? Map("apikey" -> apiKey) ># {json =>
-			ProductObject(json.values.asInstanceOf[Map[String,Any]])
-		})
-	}
+  def detail(product_id: String): ProductObject = {
+    val h = new Http
+    val req = url(ProperProductDetailURL(product_id))
+    h(req <<? Map("apikey" -> apiKey) ># { json =>
+      ProductObject(json.values.asInstanceOf[Map[String,Any]])
+    })
+  }
+
+  def detailFromURL(url: String): ProductObject = {
+    url match {
+      case ProperProductDetailURL(product_id) => detail(product_id)
+      case _ => throw new IllegalArgumentException("Bad URL")
+    }
+  }
+
+  object ProperProductDetailURL {
+    def apply(product_id: String) = "https://api.gilt.com/v1/products/" + product_id + "/detail.json"
+
+    def unapply(url: String): Option[String] = {
+      val r = """https://api.gilt.com/v1/products/(\d+)/detail.json""".r
+      url match {
+        case r(product_id) => Some(product_id)
+        case _ => None
+      }
+    }
+  }
 
   private[this] def getSaleObject(j: JValue): List[SaleObject] = {
     val innerLst = j.values.asInstanceOf[Map[String, List[Map[String, Any]]]]("sales")
