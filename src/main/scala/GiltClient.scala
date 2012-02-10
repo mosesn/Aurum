@@ -55,6 +55,19 @@ class GiltClient(val apiKey: String) {
     })
   }
 
+	// def product_detail(product_id: Number): ProductObject = {
+	// 	val req = url("https://api.gilt.com/v1/products/" + product_id.toString + "detail.json")
+	// 	product_detail(req)
+	// }
+	
+	def product_detail(url_string: String): ProductObject = {
+		val h = new Http
+		val req = url(url_string) //should validate here.
+		h(req <<? Map("apikey" -> apiKey) ># {json =>
+			ProductObject(json.values.asInstanceOf[Map[String,Any]])
+		})
+	}
+
   private[this] def getSaleObject(j: JValue): List[SaleObject] = {
     val innerLst = j.values.asInstanceOf[Map[String, List[Map[String, Any]]]]("sales")
     innerLst map (elt => SaleObject(elt))
