@@ -39,4 +39,13 @@ class ClientTest extends FunSuite {
     }
     assert(!(lst isEmpty))
   }
+
+	test("Product details are working") {
+		val client = new GiltClient(Secret.password)
+		val product = client.product_detail("https://api.gilt.com/v1/products/67602381/detail.json")
+		println(product)
+		assert(false)
+		// var lst: List[ProductObject] = Nil
+		// for(product <- products)
+	}
 }
