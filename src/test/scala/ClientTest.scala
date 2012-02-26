@@ -1,5 +1,9 @@
 import org.scalatest.FunSuite
+import org.aurum._
+import org.junit.runner.RunWith
+import org.scalatest.junit.JUnitRunner
 
+@RunWith(classOf[JUnitRunner])
 class ClientTest extends FunSuite {
 
   test("Active sales are received properly") {

@@ -1,3 +1,5 @@
+package org.aurum
+
 case class Sale(val name: String, val sale: String, val sale_key: String, val store: String,
                       val description: Option[String], val sale_url: String, val begins: String,
                       val ends: Option[String], val image_urls: List[Image],

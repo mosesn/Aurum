@@ -1,3 +1,5 @@
+package org.aurum
+
 case class Product(val name: String, val product: String, val id: Number, val brand: String,
                          val url: String, val image_urls: List[Image], val skus: List[SKU],
                          val description: Option[String], val fit_notes: Option[String], val material: Option[String],

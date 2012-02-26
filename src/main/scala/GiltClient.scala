@@ -1,3 +1,5 @@
+package org.aurum
+
 import dispatch._
 import dispatch.liftjson.Js._
 
@@ -5,6 +7,7 @@ import net.liftweb.json.JsonAST.JValue
 import net.liftweb.json.JsonAST.JField
 import net.liftweb.json.JsonAST.JArray
 import net.liftweb.json.JsonAST.JString
+
 
 /**
   * GiltClient should be considered an interface to the Gilt API
@@ -18,26 +21,26 @@ import net.liftweb.json.JsonAST.JString
 class GiltClient(val apiKey: String) {
 
   /**
-    * A list of the different supported stores from Gilt.
-    *
-    * This does not query Gilt to get these stores, so it may become outdated.
-    */
+   * A list of the different supported stores from Gilt.
+   *
+   * This does not query Gilt to get these stores, so it may become outdated.
+   */
   def stores = List("women", "men", "kids", "home")
 
   /**
-    * Gets the currently active sales from the Gilt website.
-    */
+   * Gets the currently active sales from the Gilt website.
+   */
   def active: List[Sale] = {
     val h = new Http
     val req = url("https://api.gilt.com/v1/sales/active.json")
     h((req  <<? Map("apikey" -> apiKey)) ># {json =>
       getSale(json)
-    })
+                                           })
   }
 
   /**
-    * Gets the currently active sales from the Gilt website for a given store.
-    */
+   * Gets the currently active sales from the Gilt website for a given store.
+   */
   def active(store_key: String): List[Sale] = {
     if (!validStore(store_key)) {
       throw new IllegalArgumentException("Not a valid store key: " + store_key)
@@ -46,23 +49,23 @@ class GiltClient(val apiKey: String) {
     val req = url("https://api.gilt.com/v1/sales/" + store_key + "/active.json")
     h(req <<? Map("apikey" -> apiKey) ># {json =>
       getSale(json)
-    })
+                                        })
   }
 
   /**
-    * Gets the upcoming sales from the Gilt website.
-    */
+   * Gets the upcoming sales from the Gilt website.
+   */
   def upcoming: List[Sale] = {
     val h = new Http
     val req = url("https://api.gilt.com/v1/sales/upcoming.json")
     h((req <<? Map("apikey" -> apiKey)) ># {json =>
       getSale(json)
-    })
+                                          })
   }
 
   /**
-    * Gets the upcoming sales from the Gilt website for a given store.
-    */
+   * Gets the upcoming sales from the Gilt website for a given store.
+   */
   def upcoming(store_key: String): List[Sale] = {
     if (!validStore(store_key)) {
       throw new IllegalArgumentException("Not a valid store key: " + store_key)
@@ -71,37 +74,37 @@ class GiltClient(val apiKey: String) {
     val req = url("https://api.gilt.com/v1/sales/" + store_key + "/upcoming.json")
     h(req <<? Map("apikey" -> apiKey) ># {json =>
       getSale(json)
-    })
+                                        })
   }
 
   /**
-    * Gets the details about a specific sale.
-    */
+   * Gets the details about a specific sale.
+   */
   def detail(store_key: String, sale_key: String): Sale = {
     val h = new Http
     val req = url("https://api.gilt.com/v1/sales/" + store_key + "/" + sale_key + "/detail.json")
     h(req <<? Map("apikey" -> apiKey) ># {json =>
       Sale(json.values.asInstanceOf[Map[String, Any]])
-    })
+                                        })
   }
 
   /**
-    * Gets the details about a specific product.
-    */
+   * Gets the details about a specific product.
+   */
   def detail(product_id: String): Product = {
     val h = new Http
     val req = url(ProperProductDetailURL(product_id))
     h(req <<? Map("apikey" -> apiKey) ># { json =>
       Product(json.values.asInstanceOf[Map[String,Any]])
-    })
+                                        })
   }
 
   /**
-    * Gets the details about a specific product, given the URL for it.
-    *
-    * The sale functions return the URL of the product, not the product id
-    * itself, so we included this as a convenience function.
-    */
+   * Gets the details about a specific product, given the URL for it.
+   *
+   * The sale functions return the URL of the product, not the product id
+   * itself, so we included this as a convenience function.
+   */
   def detailFromURL(url: String): Product = {
     url match {
       case ProperProductDetailURL(product_id) => detail(product_id)
@@ -110,8 +113,8 @@ class GiltClient(val apiKey: String) {
   }
 
   /**
-    * An extractor for the product detail urls.
-    */
+   * An extractor for the product detail urls.
+   */
   object ProperProductDetailURL {
     def apply(product_id: String) = "https://api.gilt.com/v1/products/" + product_id + "/detail.json"
 
